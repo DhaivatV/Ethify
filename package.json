@@ -1,7 +1,7 @@
 {
-  "name": "Let's-Chat",
+  "name": "Ethify",
   "version": "1.0.0",
-  "description": "Chat With Your Peers Easily",
+  "description": "Account Balance Checker",
   "main": "truffle.js",
   "directories": {
     "test": "test"
