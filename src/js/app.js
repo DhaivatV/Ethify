@@ -1,7 +1,7 @@
-import Web3 from 'web3'
-
 App = {
 
+  
+  
     web3Provider: null,
     contracts: {},
   
@@ -11,32 +11,46 @@ App = {
   
     initWeb3: function() {
       // Initialize web3 and set the provider to the testRPC.
-      if (typeof web3 !== 'undefined') {
+      if (window.ethereum) {
         // Use Mist/MetaMask's provider
-        App.web3Provider = web3.currentProvider;
+        App.web3Provider = window.ethereum;
         App.setStatus("MetaMask detected");
         console.log("MetaMask Detected")
+        
       } else {
         // set the provider you want from Web3.providers
         alert("Error: Please install MetaMask then refresh the page.")
-        App.web3Provider = new Web3.providers.HttpProvider('http://localhost:8545');
+        var web3 = new Web3(Web3.givenProvider || "ws://localhost:8545");
         return null;
       }
+
+      async function onInit() {
+        await window.ethereum.enable();
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const account = accounts[0];
+        console.log(account)
+         window.ethereum.on('accountsChanged', function (accounts) {
+            // Time to reload your interface with accounts[0]!
+            console.log(accounts[0])
+           });
+    }
+
+    onInit();
   
       // Get the initial account balance so it can be displayed.
-      web3.eth.getAccounts(function(err, accs) {
-        if (err != null) {
-          alert("There was an error fetching your account, please try again later.");
-          return;
-        }
-        account = accs[0];
-        if (!account) {
-          App.setStatus("Please login to MetaMask");
-          alert("Could not fetch your account. Make sure you are logged in to MetaMask, then refresh the page.");
-          return;
-        }
-        return App.initContract();
-      });
+      // web3.eth(function(err, accs) {
+      //   if (err != null) {
+      //     alert("There was an error fetching your account, please try again later.");
+      //     return;
+      //   }
+      //   account = accs[0];
+      //   if (!account) {
+      //     App.setStatus("Please login to MetaMask");
+      //     alert("Could not fetch your account. Make sure you are logged in to MetaMask, then refresh the page.");
+      //     return;
+      //   }
+      //   return App.initContract();
+      // });
     },
 
     initContract: function(){},
