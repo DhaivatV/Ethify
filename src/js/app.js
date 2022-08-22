@@ -13,6 +13,7 @@ App = {
         // Use Mist/MetaMask's provider
         App.web3Provider = web3.currentProvider;
         App.setStatus("MetaMask detected");
+        console.log("MetaMask Detected")
       } else {
         // set the provider you want from Web3.providers
         alert("Error: Please install MetaMask then refresh the page.")
