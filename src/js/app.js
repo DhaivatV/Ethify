@@ -17,6 +17,7 @@ App = {
         App.setStatus("MetaMask detected");
         console.log("MetaMask Detected")
         
+        
       } else {
         // set the provider you want from Web3.providers
         alert("Error: Please install MetaMask then refresh the page.")
@@ -24,51 +25,50 @@ App = {
         return null;
       }
 
-      async function onInit() {
-        await window.ethereum.enable();
-        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        const account = accounts[0];
-        console.log(account)
-         window.ethereum.on('accountsChanged', function (accounts) {
-            // Time to reload your interface with accounts[0]!
-            console.log(accounts[0]);
-            return accounts[0];
-           });
-    }
+      return App.getAccounts();
 
-    onInit();
-  
-      // Get the initial account balance so it can be displayed.
-      // web3.eth(function(err, accs) {
-      //   if (err != null) {
-      //     alert("There was an error fetching your account, please try again later.");
-      //     return;
-      //   }
-      //   account = accs[0];
-      //   if (!account) {
-      //     App.setStatus("Please login to MetaMask");
-      //     alert("Could not fetch your account. Make sure you are logged in to MetaMask, then refresh the page.");
-      //     return;
-      //   }
-      //   return App.initContract();
-      // });
     },
+
+    getAccounts: async function () {
+      // await window.ethereum.enable();
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      const account = accounts[0];
+      console.log(account)
+      window.ethereum.on('accountsChanged', function (accounts) {
+        // Time to reload your interface with accounts[0]!
+        console.log(accounts[0]);
+        return accounts[0]});
+      return App.initContract();
+      
+         
+    },
+
    
-    initContract: function() {
+   
+    initContract: function(){
+      
       $.getJSON('Ethify.json', function(EthifyArtifact) {
-        // Get the necessary contract artifact file and use it to instantiate a truffle contract abstraction.
         App.contracts.Ethify = TruffleContract(EthifyArtifact);
         // Set the provider for our contract.
         App.contracts.Ethify.setProvider(App.web3Provider);
+        console.log("Contract Executed");
         return App.getContractProperties();
+      
       });
+
     },
-  
+
+     
+   
+    
+
     getContractProperties: function() {
+      console.log("Contract Properties")
       var self = this;
       var meta;
       App.contracts.Ethify.deployed().then(function(instance) {
         meta = instance;
+        console.log(meta);
         return meta.getContractProperties.call({from: account});
       }).then(function(value) {
         var networkAddress = App.contracts.Ethify.address;
@@ -91,27 +91,27 @@ App = {
 
 
     displayMyAccountInfo: function() {
-      web3.eth.getAccounts(function(err, account) {
-        if (err === null) {
-          App.account = account;
-          document.getElementById("myAddress").innerHTML = account;
-          web3.eth.getBalance(account[0], function(err, balance) {
-            if (err === null) {
-              if (balance == 0) {
-                alert("Your account has zero balance. You must transfer some Ether to your MetaMask account to be able to send messages with ChatWei. Just come back and refresh this page once you have transferred some funds.");
-                App.setStatus("Please buy more Ether");
-                return;
-              } else {
-                document.getElementById("myBalance").innerHTML = web3.fromWei(balance, "ether").toNumber() + " Ether";
-                return App.checkUserRegistration();
-              }
-            } else {
-              console.log(err);
-            }
-          });
-        }
-      });
-      return null;
+      // web3.eth.getAccounts(function(err, account) {
+      //   if (err === null) {
+      //     App.account = account;
+      //     document.getElementById("myAddress").innerHTML = account;
+      //     web3.eth.getBalance(account[0], function(err, balance) {
+      //       if (err === null) {
+      //         if (balance == 0) {
+      //           alert("Your account has zero balance. You must transfer some Ether to your MetaMask account to be able to send messages with ChatWei. Just come back and refresh this page once you have transferred some funds.");
+      //           App.setStatus("Please buy more Ether");
+      //           return;
+      //         } else {
+      //           document.getElementById("myBalance").innerHTML = web3.fromWei(balance, "ether").toNumber() + " Ether";
+      //           return App.checkUserRegistration();
+      //         }
+      //       } else {
+      //         console.log(err);
+      //       }
+      //     });
+      //   }
+      // });
+      // return null;
     },
 
     setStatus: function(message) {
@@ -119,10 +119,11 @@ App = {
        
         },
 
-    checkUserRegistration : function(){},
+    // checkUserRegistration : function(){},
 
-    copyAddressToSend: function(){},
+    // copyAddressToSend: function(){},
         
+      };
 
 $(document).ready(function(){
     App.init();

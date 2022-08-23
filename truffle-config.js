@@ -8,7 +8,14 @@ module.exports = {
       network_id: "*" // Match any network id
     },
     develop: {
-      port: 8545
+      port: 7545
+    },
+    
+  },
+
+  compilers : {
+    solc : {
+        version : "^0.8.16"
     }
   }
 };

@@ -1,7 +1,5 @@
-var Ethify = artifacts.require("./Ethify.sol")
+var Ethify = artifacts.require("Ethify");
 
-
-module.exports  = function(deployer){
-
-    deployer.deploy(Ethify);
-};
+module.exports = function(deployer){
+  deployer.deploy(Ethify);
+}
