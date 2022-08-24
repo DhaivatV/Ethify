@@ -25,7 +25,7 @@ contract Ethify{
     mapping (address => Inbox) userInboxes;
     mapping (address => bool) hasRegistered;
 
-    Inbox newInbox;
+    
     Message newMessage;
     
     ContractProperties contractProperties;
@@ -40,12 +40,14 @@ contract Ethify{
     }
 
     function clearInbox() public view {
-        Inbox storage newInbox =  userInboxes[msg.sender];
+        Inbox storage newInbox;
+        newInbox = userInboxes[msg.sender];
     }
 
     function registerUser() public {
         if (!hasRegistered[msg.sender]){
-            Inbox storage newInbox = userInboxes[msg.sender];
+            Inbox storage newInbox;
+            newInbox = userInboxes[msg.sender];
             hasRegistered[msg.sender] = true;
             contractProperties.registeredUserAdderss.push(msg.sender);
         }
