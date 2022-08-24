@@ -30,5 +30,5 @@
 
 Contributions are always welcome! You can contribute to this project in the following way:
 - [ ] Bug fixes if any
-- [ ] Creating an application
+
 
