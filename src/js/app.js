@@ -1,5 +1,5 @@
 const {web3} = require('web3');
-
+var myInboxSize = 0;
 
 
 App = {
@@ -144,7 +144,63 @@ App = {
         },
       
       
-    checkUserRegistration: function(){},
+    checkUserRegistration: function(){
+      var self = this;
+    self.setStatus("Checking user registration...please wait");
+    var meta;
+    App.contracts.Ethify.deployed().then(async function(instance) {
+      meta = instance;
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      const account = accounts[0];
+      return meta.checkUserRegistration.call({from: account});
+    }).then(function(value) {
+      if (value) {
+        self.setStatus("User is registered...ready");
+      } else {
+        if (confirm("New user: we need to setup an inbox for you on the Ethereum blockchain. For this you will need to submit a transaction in MetaMask. You will only need to do this once.")) {
+          App.registerUser();
+        } else {
+          return null;
+        }
+      }
+    }).catch(function(e) {
+      console.log(e);
+      self.setStatus("Error checking user registration; see log");
+    });
+    return App.getMyInboxSize();
+
+    },
+
+
+    registerUser: function(){
+
+      var self = this;
+      self.setStatus("User registration:(open MetaMask->submit->wait)");
+      var meta;
+      App.contracts.Ethify.deployed().then(async function(instance) {
+        meta = instance;
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const account = accounts[0];
+        return meta.registerUser({}, {
+          from: account,
+          gas: 6385876,
+          gasPrice: 20000000000
+        });
+      }).then(function(result) {
+        var gasUsedWei = result.receipt.gasUsed;
+        var gasUsedEther = ether.utils.formatEther(gasUsedWei);
+        self.setStatus("User is registered...gas spent: " + gasUsedEther + "(ethers)");
+        alert("A personal inbox has been established for you on the Ethereum blockchain. You're all set!");
+      }).catch(function(e) {
+        console.log(e);
+        self.setStatus("Error logging in; see log");
+      });
+      return null;
+    },
+
+    getMyInboxSize: function(){},
+
+    
     
 
     setStatus: function(message) {
