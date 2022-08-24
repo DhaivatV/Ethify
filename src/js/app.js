@@ -36,14 +36,24 @@ App = {
     },
 
     getAccounts: async function () {
-      // await window.ethereum.enable();
-      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+      
+      App.setStatus("Login to MetaMask and refresh the page.");
+      
+      const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' }).catch(function(e){
+        
+        App.setStatus("Login to MetaMask and refresh the page")
+        alert("Please Login to MetaMask")
+      });
+      
       const account = accounts[0];
       console.log(account)
+      
       window.ethereum.on('accountsChanged', function (accounts) {
         // Time to reload your interface with accounts[0]!
         // console.log(accounts[0]);
         return accounts[0]});
+
+      App.setStatus("Welcome To Ethify")
 
       return App.initContract();
       
