@@ -33,13 +33,47 @@
     <label>Your Balance:</label>
     <textarea type="mySimpleLabel" id="myBalance" spellcheck="false">0 Ether</textarea>
     <br><br>
+
     <label>User directory:</label> <br>
     <input type="myDefaultButton" value="Copy" onclick="App.copyAddressToSend()" style="float:right"></input>
     <div style="overflow: hidden; padding-right: 10px;">
       <select type="registeredUsersAddressMenu" id='registeredUsersAddressMenu'></select>​
     </div>
     <br>
+
+    <label>Send to:</label> <br>
+  <textarea type="myInputTextArea" id="receiver" spellcheck="false" style="width: 95%;" maxlength="42" rows="1"></textarea>
+  <br><br>
+
+  <br><label>Message:</label> <br>
+  <input type="myDefaultButton" id="sendMessageButton" value="Send" onclick="App.sendMessage()" style="float:right"></input>
+  <div style="overflow: hidden; padding-right: 10px;">
+    <textarea type="messageTextArea" id="message" maxlength="30" rows="1"></textarea>​
+  </div>
+
     <label id="status" style="overflow: hidden; word-wrap: break-word; display: inline-block; white-space: pre-wrap; font-size: 18px; Color: orange;">Welcome To Ethify </label>
+    <br>
+
+
+    <div id="receivedTable" style="display:none;">
+      <br><label>Received:</label> <br>
+      <input type="myDefaultButton" id="replyButton" value="Reply" onclick="App.replyToMessage()" style="float:right"></input>
+      <div style="overflow: hidden; padding-right: 10px;">
+        <textarea type="messageTextArea" id='reply'></textarea>​
+      </div>
+      <br>
+      <table id='mytable' style="margin-top: -5px;">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>From</th>
+            <th style="display:none;">Content</th>
+          </tr>
+        </thead>
+        <tbody id="mytable-tbody">
+        </tbody>
+      </table>
+    </div>
     
 </body>
 </html>
