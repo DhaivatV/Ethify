@@ -1,4 +1,10 @@
+const {web3} = require('web3');
+
+
+
 App = {
+
+    
 
   
   
@@ -36,8 +42,9 @@ App = {
       console.log(account)
       window.ethereum.on('accountsChanged', function (accounts) {
         // Time to reload your interface with accounts[0]!
-        console.log(accounts[0]);
+        // console.log(accounts[0]);
         return accounts[0]});
+
       return App.initContract();
       
          
@@ -66,22 +73,37 @@ App = {
       console.log("Contract Properties")
       var self = this;
       var meta;
-      App.contracts.Ethify.deployed().then(function(instance) {
+      App.contracts.Ethify.deployed().then(async function(instance) {
         meta = instance;
-        console.log(meta);
+        
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const account = accounts[0];
+        
         return meta.getContractProperties.call({from: account});
       }).then(function(value) {
+        
         var networkAddress = App.contracts.Ethify.address;
         document.getElementById("contractAddress").innerHTML = networkAddress;
-        var by = value[0];
-        var registeredUsersAddress = value[1];
+        var by = value;
+      
+        var registeredUsersAddress = value;
+        
         var numRegisteredUsers = registeredUsersAddress.length;
         var select = '';
-        for (i = 0; i < numRegisteredUsers; i++) {
-          select += '<option val=' + i + '>' + registeredUsersAddress[i] + '</option>';
+        if (numRegisteredUsers > 1) {
+          
+          for (i = 0; i < numRegisteredUsers; i++) {
+            select += '<option val=' + i + '>' + registeredUsersAddress[i] + '</option>';
+          }
+          $('#registeredUsersAddressMenu').html(select);
+          document.getElementById("contractOwner").innerHTML = registeredUsersAddress[0];
         }
-        $('#registeredUsersAddressMenu').html(select);
-        document.getElementById("contractOwner").innerHTML = by;
+        else {
+          $('#registeredUsersAddressMenu').html(select);
+          document.getElementById("contractOwner").innerHTML = registeredUsersAddress[0];
+
+        }
+       
       }).catch(function(e) {
         console.log(e);
         self.setStatus("");
@@ -90,29 +112,29 @@ App = {
     },
 
 
-    displayMyAccountInfo: function() {
-      // web3.eth.getAccounts(function(err, account) {
-      //   if (err === null) {
-      //     App.account = account;
-      //     document.getElementById("myAddress").innerHTML = account;
-      //     web3.eth.getBalance(account[0], function(err, balance) {
-      //       if (err === null) {
-      //         if (balance == 0) {
-      //           alert("Your account has zero balance. You must transfer some Ether to your MetaMask account to be able to send messages with ChatWei. Just come back and refresh this page once you have transferred some funds.");
-      //           App.setStatus("Please buy more Ether");
-      //           return;
-      //         } else {
-      //           document.getElementById("myBalance").innerHTML = web3.fromWei(balance, "ether").toNumber() + " Ether";
-      //           return App.checkUserRegistration();
-      //         }
-      //       } else {
-      //         console.log(err);
-      //       }
-      //     });
-      //   }
-      // });
-      // return null;
-    },
+    displayMyAccountInfo: async function() {
+        const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        const account = accounts[0];
+        
+        document.getElementById("myAdderss").innerHTML = account;
+        balanceInWei =await  window.ethereum.request({method: 'eth_getBalance', params: [account, 'latest']}) ;
+        balance = ethers.utils.formatEther(balanceInWei)
+        console.log(balance);
+          
+        if (balance == 0) {
+          alert("Your account has zero balance. You must transfer some Ether to your MetaMask account to be able to send messages with ChatWei. Just come back and refresh this page once you have transferred some funds.");
+          App.setStatus("Please buy more Ether");
+          return;
+      } else {
+          document.getElementById("myBalance").innerHTML = balance + " Ether";
+          return App.checkUserRegistration();
+        }
+     
+        },
+      
+      
+    checkUserRegistration: function(){},
+    
 
     setStatus: function(message) {
         document.getElementById("status").innerHTML = message;
@@ -126,6 +148,7 @@ App = {
       };
 
 $(document).ready(function(){
+    
     App.init();
 
 });

@@ -24,7 +24,8 @@
         }
       ],
       "stateMutability": "view",
-      "type": "function"
+      "type": "function",
+      "constant": true
     }
   ],
   "metadata": "{\"compiler\":{\"version\":\"0.8.16+commit.07a7930e\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"ethify\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"getContractProperties\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"},{\"internalType\":\"address[]\",\"name\":\"\",\"type\":\"address[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"project:/contracts/Ethify.sol\":\"Ethify\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"project:/contracts/Ethify.sol\":{\"keccak256\":\"0x2719781bb03484f580d83b647faebf858172fa3226e1b727561a69cb16832c1d\",\"license\":\"MIT\",\"urls\":[\"bzz-raw://677eb9c9ac4a20bccf5ee90b8b63c52c2e9e5cc681116fa6a007115df3e3dae7\",\"dweb:/ipfs/Qmf5TUqfBWxRHakHwaYJhZXJGcLFK4CiMbct9WLYKmRduQ\"]}},\"version\":1}",
@@ -1660,12 +1661,13 @@
     "5777": {
       "events": {},
       "links": {},
-      "address": "0xCC37d2Fb09bDD7978D64A03c842B70e43E65f23f",
-      "transactionHash": "0xe5855e46c3822d897789d8d2351ecb40c9a590aa0de3be016b9d934ca77f9d2a"
+      "address": "0x26eAD0e47995d954C1D3DA3A2EBb20210826c4A7",
+      "transactionHash": "0xbe1ec7ae607f243ef0f3f41a6f67836d3c488b809279a9c1b35d827d87398c71"
     }
   },
   "schemaVersion": "3.4.9",
-  "updatedAt": "2022-08-23T16:10:59.839Z",
+  "updatedAt": "2022-08-24T09:10:37.004Z",
+  "networkType": "ethereum",
   "devdoc": {
     "kind": "dev",
     "methods": {},
